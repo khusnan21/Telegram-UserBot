@@ -135,7 +135,14 @@ async def pipcheck(pip):
 @register(outgoing=True, pattern="^.alive$")
 async def amialive(e):
     if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
-        await e.edit("`Master! I am alive 😁`")
+        await alive.edit(
+            "`"
+            "My bot is running \n\n"
+            f"Telethon version: {version.__version__} \n"
+            f"Python: {python_version()} \n"
+            f"User: {DEFAULTUSER}"
+            "`"
+            )
 
 
 @register(outgoing=True, pattern="^.aliveu")
