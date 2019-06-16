@@ -1,0 +1,97 @@
+{
+  "name": "Telegram Userbot",
+  "description": "Just coz we're too lazy, we program it, to make stuff easier. A userbot to improve telegram experience (`･ω･´)",
+  "logo": "https://i.imgur.com/ATSG4w3.png",
+  "keywords": [
+    "telegram",
+    "userbot",
+    "plugin",
+    "modular",
+    "productivity"
+  ],
+  "repository": "https://github.com/AvinashReddy3108/Telegram-UserBot",
+  "website":   "https://github.com/RaphielGang/Telegram-UserBot/wiki",
+  "success_url": "https://t.me/userbot_announcements",
+  "env": {
+    "API_KEY": {
+      "description": "Get this value from my.telegram.org.",
+      "value": ""
+    },
+    "API_HASH": {
+      "description": "Get this value from my.telegram.org.",
+      "value": ""
+    },
+    "OPEN_WEATHER_MAP_APPID": {
+      "description": "Get your own APPID from https://api.openweathermap.org/data/2.5/weather",
+      "required": false
+    },
+    "SCREENSHOT_LAYER_ACCESS_KEY": {
+      "description": "Get your own ACCESS_KEY from http://api.screenshotlayer.com/api/capture",
+      "required": false
+    },
+    "BOTLOG": {
+      "description": "Incase you want to turn off logging, put this to false",
+      "value": "",
+      "required": false
+    },
+    "BOTLOG_CHATID": {
+      "description": "ChatID for the Log group",
+      "value": "",
+      "required": false
+    },
+    "CONSOLE_LOGGER_VERBOSE": {
+      "description": "If you need Verbosity on the Logging",
+      "value": "",
+      "required": false
+    },
+    "PM_AUTO_BAN": {
+      "description": "PM Auto-Ban Feature Switch",
+      "value": "False"
+    },
+    "BUILD_CHOICE": {
+      "description": "Build Choice Bleeding or Stable",
+      "value": "Stable"
+    },
+    "YOUTUBE_API_KEY": {
+      "description": "YouTube Data API Key for .yt command. Get from https://console.cloud.google.com",
+      "required": false
+    },
+    "DEFAULT_BIO": {
+      "description": "Spotify Current Listening Music to Bio. Set default bio.",
+      "required": false
+    },
+    "SPOTIFY_USERNAME": {
+      "description": "Spotify Current Listening Music to Bio. Set your Spotify Username.",
+      "required": false
+    },
+    "SPOTIFY_PASS": {
+      "description": "Spotify Current Listening Music to Bio. Set your Spotify Password.",
+      "required": false
+    },
+    "SPOTIFY_BIO_PREFIX": {
+      "description": "Bot will add before song name. Example: GitHub: MacTavishAO : Skillet - Feel Invincible",
+      "required": false
+    },
+    "WELCOME_MUTE": {
+      "description": "Mute some known spammer bots after they join.",
+      "value": "False"
+    },
+    "UPDATER": {
+      "description": "Keep this 'False' if using Heroku !!",
+      "value": "False"
+    }
+  },
+  "addons": [{
+    "plan": "heroku-postgresql",
+    "options": {
+      "version": "9.5"
+    }
+  }],
+  "buildpacks": [{
+    "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
+  }, {
+    "url": "heroku/python"
+  },{
+    "url": "heroku-community/apt"
+    }]
+}
