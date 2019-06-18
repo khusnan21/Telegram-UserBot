@@ -114,4 +114,3 @@ MUTING_USERS = {}
 MUTED_USERS = {}
 CMD_HELP = {}
 AFKREASON = "no reason"
-DISABLE_RUN = False

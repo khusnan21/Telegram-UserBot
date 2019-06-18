@@ -12,12 +12,17 @@ import random
 import re
 import time
 
+from collections import deque
+
+from telethon.tl.functions.users import GetFullUserRequest
+from telethon.tl.types import MessageEntityMentionName
+
 from spongemock import spongemock
 from zalgo_text import zalgo
 
 from cowpy import cow
 
-from userbot import (DISABLE_RUN, WIDE_MAP, CMD_HELP)
+from userbot import (WIDE_MAP, CMD_HELP)
 from userbot.events import register
 
 # ================= CONSTANT =================
@@ -191,6 +196,15 @@ RUNSREACTS = [
     "I go away",
     "I am just walking off, coz me is too fat.",
     "I Fugged off!",
+    "Will run for chocolate.",
+    "I run because I really like food.",
+    "Running...because dieting is not an option.",
+    "Wicked fast runnah",
+    "If you wanna catch me, you got to be fast...if you wanna stay with me, you got to be good...if you wanna pass me...You've got to be kidding.",
+    "Anyone can run a hundred meters, it's the next forty-two thousand and two hundred that count.",
+    "Why are all these people following me?",
+    "Are the kids still chasing me?",
+    "Running a marathon...there's an app for that.",
 ]
 HELLOSTR = [
     "Hi !",
@@ -233,6 +247,67 @@ SHGS = [
     r"¯\_༼ᴼل͜ᴼ༽_/¯",
 ]
 
+SLAP_TEMPLATES = [
+    "{hits} {user2} with a {item}.",
+    "{hits} {user2} in the face with a {item}.",
+    "{hits} {user2} around a bit with a {item}.",
+    "{throws} a {item} at {user2}.",
+    "grabs a {item} and {throws} it at {user2}'s face.",
+    "launches a {item} in {user2}'s general direction.",
+    "starts slapping {user2} silly with a {item}.",
+    "pins {user2} down and repeatedly {hits} them with a {item}.",
+    "grabs up a {item} and {hits} {user2} with it.",
+    "ties {user2} to a chair and {throws} a {item} at them.",
+    "gave a friendly push to help {user2} learn to swim in lava."
+]
+
+ITEMS = [
+    "cast iron skillet",
+    "large trout",
+    "baseball bat",
+    "cricket bat",
+    "wooden cane",
+    "nail",
+    "printer",
+    "shovel",
+    "CRT monitor",
+    "physics textbook",
+    "toaster",
+    "portrait of Richard Stallman",
+    "television",
+    "five ton truck",
+    "roll of duct tape",
+    "book",
+    "laptop",
+    "old television",
+    "sack of rocks",
+    "rainbow trout",
+    "rubber chicken",
+    "spiked bat",
+    "fire extinguisher",
+    "heavy rock",
+    "chunk of dirt",
+    "beehive",
+    "piece of rotten meat",
+    "bear",
+    "ton of bricks",
+]
+
+THROW = [
+    "throws",
+    "flings",
+    "chucks",
+    "hurls",
+]
+
+HIT = [
+    "hits",
+    "whacks",
+    "slaps",
+    "smacks",
+    "bashes",
+]
+
 DISABLE_RUN = False
 # ===========================================
 
@@ -262,6 +337,76 @@ async def kek(keks):
         time.sleep(0.3)
         await keks.edit(":" + uio[i % 2])
 
+@register(pattern=".slap(?: |$)(.*)", outgoing=True)
+async def who(event):
+    """ slaps a user, or get slapped if not a reply. """
+    if event.fwd_from:
+        return
+
+    replied_user = await get_user(event)
+    caption = await slap(replied_user, event)
+    message_id_to_reply = event.message.reply_to_msg_id
+
+    if not message_id_to_reply:
+        message_id_to_reply = None
+
+    try:
+        await event.edit(caption)
+
+    except:
+        await event.edit("`Can't slap this nibba !!`")
+
+async def get_user(event):
+    """ Get the user from argument or replied message. """
+    if event.reply_to_msg_id:
+        previous_message = await event.get_reply_message()
+        replied_user = await event.client(GetFullUserRequest(previous_message.from_id))
+    else:
+        user = event.pattern_match.group(1)
+
+        if user.isnumeric():
+            user = int(user)
+
+        if not user:
+            self_user = await event.client.get_me()
+            user = self_user.id
+
+        if event.message.entities is not None:
+            probable_user_mention_entity = event.message.entities[0]
+
+            if isinstance(probable_user_mention_entity, MessageEntityMentionName):
+                user_id = probable_user_mention_entity.user_id
+                replied_user = await event.client(GetFullUserRequest(user_id))
+                return replied_user
+        try:
+            user_object = await event.client.get_entity(user)
+            replied_user = await event.client(GetFullUserRequest(user_object.id))
+
+        except (TypeError, ValueError):
+            await event.edit("`I don't slap strangers !!`")
+            return None
+
+    return replied_user
+
+async def slap(replied_user, event):
+    """ Construct a funny slap sentence !! """
+    user_id = replied_user.user.id
+    first_name = replied_user.user.first_name
+    username = replied_user.user.username
+
+    if username:
+        slapped = "@{}".format(username)
+    else:
+        slapped = f"[{first_name}](tg://user?id={user_id})"
+
+    temp = random.choice(SLAP_TEMPLATES)
+    item = random.choice(ITEMS)
+    hit = random.choice(HIT)
+    throw = random.choice(THROW)
+
+    caption = "..." + temp.format(user2=slapped, item=item, hits=hit, throws=throw)
+
+    return caption
 
 @register(outgoing=True, pattern="^-_-$")
 async def lol(lel):
@@ -271,6 +416,18 @@ async def lol(lel):
         okay = okay[:-1] + "_-"
         await lel.edit(okay)
 
+@register(outgoing=True, pattern="^;__;$")
+async def fun(e):
+    t = ";__;"
+    for j in range(10):
+        t = t[:-1] + "_;"
+        await e.edit(t)
+
+@register(outgoing=True, pattern="^.cry$")
+async def cry(e):
+    """ y u du dis, i cry everytime !! """
+    if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
+        await e.edit("(;´༎ຶД༎ຶ)")
 
 @register(outgoing=True, pattern="^.cp(?: |$)(.*)")
 async def copypasta(cp_e):
@@ -371,7 +528,7 @@ async def zal(zgfy):
         await zgfy.edit(zalgofied_text)
 
 
-@register(outgoing=True, pattern="^hi$")
+@register(outgoing=True, pattern="^.hi$")
 async def hoi(hello):
     """ Greet everyone! """
     index = random.randint(0, len(HELLOSTR))
@@ -457,6 +614,37 @@ async def metoo(hahayes):
         reply_text = METOOSTR[index]
         await hahayes.edit(reply_text)
 
+@register(outgoing=True, pattern="^Oof$")
+async def Oof(e):
+    t = "Oof"
+    for j in range(15):
+        t = t[:-1] + "of"
+        await e.edit(t)
+
+@register(outgoing=True, pattern="^.10iq$")
+async def iqless(e):
+    if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
+        await e.edit("♿")
+
+@register(outgoing=True, pattern="^.moon$")
+async def _(event):
+	if event.fwd_from:
+		return
+	deq = deque(list("🌗🌘🌑🌒🌓🌔🌕🌖"))
+	for _ in range(32):
+		await asyncio.sleep(0.1)
+		await event.edit("".join(deq))
+		deq.rotate(1)
+
+@register(outgoing=True, pattern="^.clock$")
+async def _(event):
+	if event.fwd_from:
+		return
+	deq = deque(list("🕙🕘🕗🕖🕕🕔🕓🕒🕑🕐🕛"))
+	for _ in range(32):
+		await asyncio.sleep(0.1)
+		await event.edit("".join(deq))
+		deq.rotate(1)
 
 @register(outgoing=True, pattern="^.mock(?: |$)(.*)")
 async def spongemocktext(mock):
@@ -537,24 +725,36 @@ CMD_HELP.update({
 \nUsage: cow which says things.\
 \n\n:/\
 \nUsage: Check yourself ;)\
+\n\n-_-\
+\nUsage: Ok...\
+\n\n;__;\
+\nUsage: Like `-_-` but crying.\
 \n\n.cp\
 \nUsage: Copypasta the famous meme\
 \n\n.vapor\
 \nUsage: Vaporize everything!\
 \n\n.str\
 \nUsage: Stretch it.\
+\n\n.10iq\
+\nUsage: You retard !!\
 \n\n.zal\
 \nUsage: Invoke the feeling of chaos.\
-\n\n.zal\
-\nUsage: Invoke the feeling of chaos.\
-\n\nhi\
+\n\nOof\
+\nUsage: Ooooof\
+\n\n.moon\
+\nUsage: kensar moon animation.\
+\n\n.clock\
+\nUsage: kensar clock animation.\
+\n\n.hi\
 \nUsage: Greet everyone!\
 \n\n.owo\
 \nUsage: UwU\
 \n\n.react\
 \nUsage: Make your userbot react to everything.\
-\n\n.react\
-\nUsage: Make your userbot react to everything.\
+\n\n.slap\
+\nUsage: reply to slap them with random objects !!\
+\n\n.cry\
+\nUsage: y u du dis, i cri.\
 \n\n.shg\
 \nUsage: Shrug at it !!\
 \n\n.runs\

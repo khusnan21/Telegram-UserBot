@@ -10,7 +10,6 @@ from asyncio.subprocess import PIPE as asyncPIPE
 from platform import python_version, uname
 from shutil import which
 from os import remove
-
 from telethon import version
 
 from userbot import CMD_HELP
@@ -126,18 +125,17 @@ async def pipcheck(pip):
                     f"{invokepip}"
                     "`\n**Result: **\n`No Result Returned/False`"
                 )
-
-
         else:
             await pip.edit("`Use .help pip to see an example`")
 
 
 @register(outgoing=True, pattern="^.alive$")
-async def amialive(e):
-    if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
+async def amireallyalive(alive):
+    """ For .alive command, check if the bot is running.  """
+    if not alive.text[0].isalpha() and alive.text[0] not in ("/", "#", "@", "!"):
         await alive.edit(
             "`"
-            "My bot is running \n\n"
+            "Your bot is running \n\n"
             f"Telethon version: {version.__version__} \n"
             f"Python: {python_version()} \n"
             f"User: {DEFAULTUSER}"

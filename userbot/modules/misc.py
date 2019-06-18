@@ -22,7 +22,6 @@ async def randomise(items):
         index = randint(1, len(itemo) - 1)
         await items.edit("**Query: **\n`" + items.text[8:] + "`\n**Output: **\n`" + itemo[index] + "`")
 
-
 @register(outgoing=True, pattern="^.sleep( [0-9]+)?$")
 async def sleepybot(time):
     """ For .sleep command, let the userbot snooze for a few second. """
@@ -61,6 +60,15 @@ async def bot_support(wannahelp):
     if not wannahelp.text[0].isalpha() and wannahelp.text[0] not in ("/", "#", "@", "!"):
         await wannahelp.edit("Link Portal: @userbot_support")
 
+@register(outgoing=True, pattern="^.creator$")
+async def creator(e):
+    if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
+        await e.edit("https://telegram.dog/AvinashReddy3108")
+
+@register(outgoing=True, pattern="^.readme$")
+async def reedme(e):
+    if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
+        await e.edit("https://github.com/AvinashReddy3108/Telegram-UserBot/blob/master/README.md")
 
 @register(outgoing=True, pattern="^.repo$")
 async def repo_is_here(wannasee):
@@ -72,24 +80,26 @@ CMD_HELP.update({
     'random': '.random <item1> <item2> ... <itemN>\
 \nUsage: Get a random item from the list of items.'
 })
-
 CMD_HELP.update({
     'sleep': '.sleep 10\
 \nUsage: Userbots get tired too. Let yours snooze for a few seconds.'
 })
-
 CMD_HELP.update({
     "shutdown": ".shutdown\
 \nUsage: Sometimes you need to restart your bot. Sometimes you just hope to\
 hear Windows XP shutdown sound... but you don't."
 })
-
 CMD_HELP.update({
     'support': ".support\
 \nUsage: If you need help, use this command."
 })
-
 CMD_HELP.update({
     'repo': '.repo\
 \nUsage: If you are curious what makes the Userbot work, this is what you need.'
+})
+CMD_HELP.update({
+    "readme": "Read nibba READ !!"
+})
+CMD_HELP.update({
+    "creator": "Know who created this awesome userbot !!"
 })
