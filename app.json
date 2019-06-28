@@ -22,11 +22,11 @@
       "value": ""
     },
     "OPEN_WEATHER_MAP_APPID": {
-      "description": "Get your own APPID from https://api.openweathermap.org/data/2.5/weather",
+      "description": "Get your own APPID (API key) from https://api.openweathermap.org/data/2.5/weather",
       "required": false
     },
     "SCREENSHOT_LAYER_ACCESS_KEY": {
-      "description": "Get your own ACCESS_KEY from http://api.screenshotlayer.com/api/capture",
+      "description": "Get your own ACCESS_KEY (API key) from http://api.screenshotlayer.com/api/capture",
       "required": false
     },
     "BOTLOG": {
@@ -57,19 +57,19 @@
       "required": false
     },
     "DEFAULT_BIO": {
-      "description": "Spotify Current Listening Music to Bio. Set default bio.",
+      "description": "Set a default bio to be shown when you are not listening on Spotify..",
       "required": false
     },
     "SPOTIFY_USERNAME": {
-      "description": "Spotify Current Listening Music to Bio. Set your Spotify Username.",
+      "description": "Put your Spotify Username (your Spotify email id).",
       "required": false
     },
     "SPOTIFY_PASS": {
-      "description": "Spotify Current Listening Music to Bio. Set your Spotify Password.",
+      "description": "Put your Spotify Password.",
       "required": false
     },
     "SPOTIFY_BIO_PREFIX": {
-      "description": "Bot will add before song name. Example: GitHub: MacTavishAO : Skillet - Feel Invincible",
+      "description": "Put the prefix that you want to show while you listen to music",
       "required": false
     },
     "WELCOME_MUTE": {
