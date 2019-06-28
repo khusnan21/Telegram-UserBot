@@ -50,7 +50,7 @@ async def keep_read(message):
     kread = is_kread()
     if kread:
         for i in kread:
-            if i["chat_id"]==message.chat_id:
+            if i["chat_id"] == message.chat_id:
                 await message.client.send_read_acknowledge(message.chat_id)
 
 CMD_HELP.update({
