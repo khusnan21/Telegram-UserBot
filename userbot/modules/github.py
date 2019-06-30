@@ -50,5 +50,5 @@ Created at: `{created_at}`
                 await bot.send_message(chat.id, message=REPLY, reply_to=e.id, link_preview=False)
 
 CMD_HELP.update({
-    "git": "like whois but for GitHub usernames."
+    "git": "Like .whois but for GitHub usernames."
 })

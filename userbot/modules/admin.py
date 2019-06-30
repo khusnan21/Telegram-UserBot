@@ -26,13 +26,13 @@ from userbot.events import register
 # =================== CONSTANT ===================
 PP_TOO_SMOL = "`The image is too small`"
 PP_ERROR = "`Failure while processing image`"
-NO_ADMIN = "`You aren't an admin!`"
-NO_PERM = "`You don't have sufficient permissions!`"
+NO_ADMIN = "`I am not an admin!`"
+NO_PERM = "`I don't have sufficient permissions!`"
 NO_SQL = "`Running on Non-SQL mode!`"
 
 CHAT_PP_CHANGED = "`Chat Picture Changed`"
 CHAT_PP_ERROR = "`Some issue with updating the pic,`" \
-                "`maybe you aren't an admin,`" \
+                "`maybe coz I'm not an admin,`" \
                 "`or don't have the desired rights.`"
 INVALID_MEDIA = "`Invalid Extension`"
 
@@ -596,7 +596,7 @@ async def rm_deletedacc(show):
 
         # Well
         if not admin and not creator:
-            await show.edit("`You aren't an admin here!`")
+            await show.edit("`I am not an admin here!`")
             return
 
         await show.edit("`Cleaning deleted accounts...`")
@@ -616,7 +616,7 @@ async def rm_deletedacc(show):
                         )
                     )
                 except ChatAdminRequiredError:
-                    await show.edit("`you don't have ban rights in this group`")
+                    await show.edit("`I don't have ban rights in this group`")
                     return
                 except UserAdminInvalidError:
                     del_u -= 1
@@ -645,7 +645,7 @@ async def get_admin(show):
     """ For .adminlist command, list all of the admins of the chat. """
     if not show.text[0].isalpha() and show.text[0] not in ("/", "#", "@", "!"):
         if not show.is_group:
-            await show.edit("Are you sure this is a group?")
+            await show.edit("I don't think this is a group.")
             return
         info = await show.client.get_entity(show.chat_id)
         title = info.title if info.title else "this chat"
@@ -681,7 +681,7 @@ async def pin(msg):
         to_pin = msg.reply_to_msg_id
 
         if not to_pin:
-            await msg.edit("`Reply to a message which you want to pin.`")
+            await msg.edit("`Reply to a message to pin it.`")
             return
 
         options = msg.pattern_match.group(1)
@@ -770,6 +770,34 @@ async def kick(usr):
             )
 
 
+@register(outgoing=True, pattern="^.userslist ?(.*)")
+async def get_users(show):
+    """ For .userslist command, list all of the users of the chat. """
+    if not show.text[0].isalpha() and show.text[0] not in ("/", "#", "@", "!"):
+        if not show.is_group:
+            await show.edit("Are you sure this is a group?")
+            return
+        info = await show.client.get_entity(show.chat_id)
+        title = info.title if info.title else "this chat"
+        mentions = 'Users in {}: \n'.format(title)
+        try:
+            if not show.pattern_match.group(1):
+                async for user in show.client.iter_participants(show.chat_id):
+                    if not user.deleted:
+                        mentions += f"\n[{user.first_name}](tg://user?id={user.id}) `{user.id}`"
+                    else:
+                        mentions += f"\nDeleted Account `{user.id}`"
+            else:
+                searchq = show.pattern_match.group(1)
+                async for user in show.client.iter_participants(show.chat_id, search=f'{searchq}'):
+                    if not user.deleted:
+                        mentions += f"\n[{user.first_name}](tg://user?id={user.id}) `{user.id}`"
+                    else:
+                        mentions += f"\nDeleted Account `{user.id}`"
+        except ChatAdminRequiredError as err:
+            mentions += " " + str(err) + "\n"
+        await show.edit(mentions)
+
 async def get_user_from_event(event):
     """ Get the user from argument or replied message. """
     if event.reply_to_msg_id:
@@ -812,38 +840,27 @@ async def get_user_from_id(user, event):
 
     return user_obj
 
-
 CMD_HELP.update({
-    "promote": "Usage: Reply to someone's message with .promote to promote them."
-})
-CMD_HELP.update({
-    "ban": "Usage: Reply to someone's message with .ban to ban them."
-})
-CMD_HELP.update({
-    "demote": "Usage: Reply to someone's message with .demote to revoke their admin permissions."
-})
-CMD_HELP.update({
-    "unban": "Usage: Reply to someone's message with .unban to unban them in this chat."
-})
-CMD_HELP.update({
-    "mute": "Usage: Reply to someone's message with .mute to mute them, works on admins too"
-})
-CMD_HELP.update({
-    "unmute": "Usage: Reply to someone's message with .unmute to remove them from muted list."
-})
-CMD_HELP.update({
-    "gmute": "Usage: Reply to someone's message with .gmute to mute them in all \
-groups you have in common with them."
-})
-CMD_HELP.update({
-    "ungmute": "Usage: Reply someone's message with .ungmute to remove them from the gmuted list."
-})
-CMD_HELP.update({
-    "delusers": "Usage: Searches for deleted accounts in a group."
-})
-CMD_HELP.update({
-    "delusers clean": "Usage: Searches and removes deleted accounts from the group"
-})
-CMD_HELP.update({
-    "adminlist" : "Usage: Retrieves all admins in the chat."
+    "admin": ".promote\
+\nUsage: Reply to someone's message with .promote to promote them.\
+\n\n.demote\
+\nUsage: Reply to someone's message with .demote to revoke their admin permissions.\
+\n\n.ban\
+\nUsage: Reply to someone's message with .ban to ban them.\
+\n\n.unban\
+\nUsage: Reply to someone's message with .unban to unban them in this chat.\
+\n\n.mute\
+\nUsage: Reply to someone's message with .mute to mute them, works on admins too.\
+\n\n.unmute\
+\nUsage: Reply to someone's message with .unmute to remove them from muted list.\
+\n\n.gmute\
+\nUsage: Reply to someone's message with .gmute to mute them in all groups you have in common with them.\
+\n\n.ungmute\
+\nUsage: Reply someone's message with .ungmute to remove them from the gmuted list.\
+\n\n.delusers\
+\nUsage: Searches for deleted accounts in a group. Use .delusers clean to remove deleted accounts from the group.\
+\n\n.adminlist\
+\nUsage: Retrieves all admins in the chat.\
+\n\n.userslist or .userslist <name>\
+\nUsage: Retrieves all users in the chat."
 })

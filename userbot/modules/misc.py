@@ -9,7 +9,7 @@
 
 from random import randint
 from time import sleep
-
+import os
 from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP
 from userbot.events import register
 
@@ -53,35 +53,63 @@ async def killdabot(event):
                 "Bot shut down")
         await event.client.disconnect()
 
+# Copyright(c) Kandnub | 2019
+@register(outgoing=True, pattern="^.restart$")
+async def revivedabot(restart):
+    """ For .restart command, restart the bot down."""
+    if not restart.text[0].isalpha():
+        await restart.edit("`BRB... *PornHub intro*`")
+        bye = os.getpid()
+        bash = f"#!/bin/bash/\nkill -9 {bye}\npython3 -m userbot"
+        f = open("restart.sh", "w+")
+        f.write(bash)
+        f.close()
+        os.popen("bash restart.sh")
 
 @register(outgoing=True, pattern="^.support$")
 async def bot_support(wannahelp):
     """ For .support command, just returns the group link. """
     if not wannahelp.text[0].isalpha() and wannahelp.text[0] not in ("/", "#", "@", "!"):
-        await wannahelp.edit("Link Portal: @userbot_support")
+        await wannahelp.edit("Join the userbot community: @userbot_support")
 
 @register(outgoing=True, pattern="^.creator$")
 async def creator(e):
     if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
-        await e.edit("https://telegram.dog/AvinashReddy3108")
+        await e.edit("[AvinashReddy3108](https://t.me/AvinashReddy3108)")
 
 @register(outgoing=True, pattern="^.readme$")
 async def reedme(e):
     if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
-        await e.edit("https://github.com/AvinashReddy3108/Telegram-UserBot/blob/master/README.md")
+        await e.edit("[README.md](https://github.com/AvinashReddy3108/Telegram-UserBot/blob/master/README.md)")
+
+#
+# Copyright (c) Gegham Zakaryan | 2019
+#
+@register(outgoing=True, pattern="^.repeat (.*) (.*)")
+async def repeat(rep):
+    if not rep.text[0].isalpha() and rep.text[0] not in ("/", "#", "@", "!"):
+        replyCount = int(rep.pattern_match.group(1))
+        toBeRepeated = rep.pattern_match.group(2)
+
+        replyText = toBeRepeated + "\n"
+
+        for i in range(0, replyCount-1):
+            replyText += toBeRepeated + "\n"
+
+        await rep.edit(replyText)
 
 @register(outgoing=True, pattern="^.repo$")
 async def repo_is_here(wannasee):
     """ For .repo command, just returns the repo URL. """
     if not wannasee.text[0].isalpha() and wannasee.text[0] not in ("/", "#", "@", "!"):
-        await wannasee.edit("https://github.com/AvinashReddy3108/Telegram-UserBot")
+        await wannasee.edit("[SOURCE CODE](https://github.com/AvinashReddy3108/Telegram-UserBot)")
 
 CMD_HELP.update({
     'random': '.random <item1> <item2> ... <itemN>\
 \nUsage: Get a random item from the list of items.'
 })
 CMD_HELP.update({
-    'sleep': '.sleep 10\
+    'sleep': '.sleep <seconds>\
 \nUsage: Userbots get tired too. Let yours snooze for a few seconds.'
 })
 CMD_HELP.update({
@@ -95,11 +123,17 @@ CMD_HELP.update({
 })
 CMD_HELP.update({
     'repo': '.repo\
-\nUsage: If you are curious what makes the Userbot work, this is what you need.'
+\nUsage: If you are curious what makes the userbot work, this is what you need.'
 })
 CMD_HELP.update({
     "readme": "Read nibba READ !!"
 })
 CMD_HELP.update({
     "creator": "Know who created this awesome userbot !!"
+})
+CMD_HELP.update({
+    "repeat": ".repeat <no.> <text>\nRepeats a text number of times."
+})
+CMD_HELP.update({
+    "restart": "Restart the bot !!"
 })

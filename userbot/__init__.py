@@ -66,6 +66,10 @@ CONSOLE_LOGGER_VERBOSE = sb(
 
 DB_URI = os.environ.get("DATABASE_URL", None)
 
+CHROME_DRIVER = os.environ.get("CHROME_DRIVER", None)
+
+GOOGLE_CHROME_BIN = os.environ.get("GOOGLE_CHROME_BIN", None)
+
 SCREENSHOT_LAYER_ACCESS_KEY = os.environ.get(
     "SCREENSHOT_LAYER_ACCESS_KEY", None
     )
@@ -113,4 +117,4 @@ SNIPE_ID = 0
 MUTING_USERS = {}
 MUTED_USERS = {}
 CMD_HELP = {}
-AFKREASON = "no reason"
+AFKREASON = None

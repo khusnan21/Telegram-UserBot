@@ -1,6 +1,6 @@
 {
   "name": "Telegram Userbot",
-  "description": "Just coz we're too lazy, we program it, to make stuff easier. A userbot to improve telegram experience (`･ω･´)",
+  "description": "Custom kang of the famous Paperplane userbot by @RaphielGang with some of my fav modules.",
   "logo": "https://i.imgur.com/ATSG4w3.png",
   "keywords": [
     "telegram",
@@ -21,8 +21,16 @@
       "description": "Get this value from my.telegram.org.",
       "value": ""
     },
+    "CHROME_DRIVER": {
+      "description": "ChromeDriver location.",
+      "value": "/app/.chromedriver/bin/chromedriver"
+    },
+    "GOOGLE_CHROME_BIN": {
+      "description": "Headless GoogleChrome location.",
+      "value": "/app/.apt/usr/bin/google-chrome"
+    },
     "OPEN_WEATHER_MAP_APPID": {
-      "description": "Get your own APPID (API key) from https://api.openweathermap.org/data/2.5/weather",
+      "description": "Get your own APPID (API key)from https://api.openweathermap.org/data/2.5/weather",
       "required": false
     },
     "SCREENSHOT_LAYER_ACCESS_KEY": {
@@ -61,7 +69,7 @@
       "required": false
     },
     "SPOTIFY_USERNAME": {
-      "description": "Put your Spotify Username (your Spotify email id).",
+      "description": "Put your Spotify Username (your Spotify username).",
       "required": false
     },
     "SPOTIFY_PASS": {
@@ -93,5 +101,9 @@
     "url": "heroku/python"
   },{
     "url": "heroku-community/apt"
+    }{
+    "url": "https://github.com/heroku/heroku-buildpack-chromedriver"
+  },{
+    "url": "https://github.com/heroku/heroku-buildpack-google-chrome"
     }]
 }

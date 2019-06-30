@@ -1,7 +1,8 @@
-# Telegram-UserBot [Community Editon]
-## @RaphielGang's Paperplane + some of my fav modules and mods !!
+# Telegram-UserBot
 
-### Heroku Deploy
+### If the CI builds pass, but you still get syntax errors when running locally it's most probably not a problem with the source but with your version of python
+
+### # Heroku Deploy
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ```

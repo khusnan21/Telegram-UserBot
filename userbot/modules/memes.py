@@ -14,6 +14,8 @@ import time
 
 from collections import deque
 
+import requests
+
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import MessageEntityMentionName
 
@@ -35,6 +37,7 @@ METOOSTR = [
     "Haha yes",
     "Me rn",
 ]
+
 EMOJIS = [
     "😂",
     "😂",
@@ -65,6 +68,7 @@ EMOJIS = [
     "😩",
     "🚰",
 ]
+
 UWUS = [
     "(・`ω´・)",
     ";;w;;",
@@ -83,6 +87,7 @@ UWUS = [
     "*(^O^)*",
     "((+_+))",
 ]
+
 FACEREACTS = [
     "ʘ‿ʘ",
     "ヾ(-_- )ゞ",
@@ -184,6 +189,7 @@ FACEREACTS = [
     r"¯\(°_o)/¯",
     "(｡◕‿◕｡)",
 ]
+
 RUNSREACTS = [
     "Runs to Thanos",
     "Runs far, far away from earth",
@@ -206,6 +212,7 @@ RUNSREACTS = [
     "Are the kids still chasing me?",
     "Running a marathon...there's an app for that.",
 ]
+
 HELLOSTR = [
     "Hi !",
     "‘Ello, gov'nor!",
@@ -229,36 +236,83 @@ HELLOSTR = [
 ]
 
 SHGS = [
-    r"¯\_(ツ)_/¯",
-    r"¯\(°_o)/¯",
-    r"t(ツ)_/¯",
-    r"¯\_ಠ_ಠ_/¯",
-    r"¯\_(⌣̯̀⌣́)_/¯",
-    r"˘\_( õ ‹3 ó)_/˘",
-    r"¯\(◉‿◉)/¯",
-    r"¯\_(☯෴☯)_/¯",
-    r"乁[ᓀ˵▾˵ᓂ]ㄏ",
-    r"¯\(©¿©) /¯",
-    r"へ‿(ツ)‿ㄏ",
-    r"¯\_▒ – ﹏ – ▒_/¯",
-    r"¯\_| ✖ 〜 ✖ |_/¯",
-    r"¯\_ȌᴥȌ_/¯",
-    r"¯\_╏ ՞ ︿ ՞ ╏_/¯",
-    r"¯\_༼ᴼل͜ᴼ༽_/¯",
+    "┐(´д｀)┌",
+    "┐(´～｀)┌",
+    "┐(´ー｀)┌",
+    "┐(￣ヘ￣)┌",
+    "╮(╯∀╰)╭",
+    "╮(╯_╰)╭",
+    "┐(´д`)┌",
+    "┐(´∀｀)┌",
+    "ʅ(́◡◝)ʃ",
+    "ლ(ﾟдﾟლ)",
+    "┐(ﾟ～ﾟ)┌",
+    "┐('д')┌",
+    "ლ｜＾Д＾ლ｜",
+    "ლ（╹ε╹ლ）",
+    "ლ(ಠ益ಠ)ლ",
+    "┐(‘～`;)┌",
+    "ヘ(´－｀;)ヘ",
+    "┐( -“-)┌",
+    "乁༼☯‿☯✿༽ㄏ",
+    "ʅ（´◔౪◔）ʃ",
+    "ლ(•ω •ლ)",
+    "ヽ(゜～゜o)ノ",
+    "ヽ(~～~ )ノ",
+    "┐(~ー~;)┌",
+    "┐(-。ー;)┌",
+    "¯\_(ツ)_/¯",
+    "¯\_(⊙_ʖ⊙)_/¯",
+    "乁ʕ •̀ ۝ •́ ʔㄏ",
+    "¯\_༼ ಥ ‿ ಥ ༽_/¯",
+    "乁( ⁰͡  Ĺ̯ ⁰͡ ) ㄏ",
+]
+
+CRI = [
+    "أ‿أ",
+    "╥﹏╥",
+    "(;﹏;)",
+    "(ToT)",
+    "(┳Д┳)",
+    "(ಥ﹏ಥ)",
+    "（；へ：）",
+    "(T＿T)",
+    "（πーπ）",
+    "(Ｔ▽Ｔ)",
+    "(⋟﹏⋞)",
+    "（ｉДｉ）",
+    "(´Д⊂ヽ",
+    "(;Д;)",
+    "（>﹏<）",
+    "(TдT)",
+    "(つ﹏⊂)",
+    "༼☯﹏☯༽",
+    "(ノ﹏ヽ)",
+    "(ノAヽ)",
+    "(╥_╥)",
+    "(T⌓T)",
+    "(༎ຶ⌑༎ຶ)",
+    "(☍﹏⁰)｡",
+    "(ಥ_ʖಥ)",
+    "(つд⊂)",
+    "(≖͞_≖̥)",
+    "(இ﹏இ`｡)",
+    "༼ಢ_ಢ༽",
+    "༼ ༎ຶ ෴ ༎ຶ༽",
 ]
 
 SLAP_TEMPLATES = [
-    "{hits} {user2} with a {item}.",
-    "{hits} {user2} in the face with a {item}.",
-    "{hits} {user2} around a bit with a {item}.",
-    "{throws} a {item} at {user2}.",
-    "grabs a {item} and {throws} it at {user2}'s face.",
-    "launches a {item} in {user2}'s general direction.",
-    "starts slapping {user2} silly with a {item}.",
-    "pins {user2} down and repeatedly {hits} them with a {item}.",
-    "grabs up a {item} and {hits} {user2} with it.",
-    "ties {user2} to a chair and {throws} a {item} at them.",
-    "gave a friendly push to help {user2} learn to swim in lava."
+    "{hits} {victim} with a {item}.",
+    "{hits} {victim} in the face with a {item}.",
+    "{hits} {victim} around a bit with a {item}.",
+    "{throws} a {item} at {victim}.",
+    "grabs a {item} and {throws} it at {victim}'s face.",
+    "launches a {item} in {victim}'s general direction.",
+    "starts slapping {victim} silly with a {item}.",
+    "pins {victim} down and repeatedly {hits} them with a {item}.",
+    "grabs up a {item} and {hits} {victim} with it.",
+    "ties {victim} to a chair and {throws} a {item} at them.",
+    "gave a friendly push to help {victim} learn to swim in lava."
 ]
 
 ITEMS = [
@@ -354,7 +408,7 @@ async def who(event):
         await event.edit(caption)
 
     except:
-        await event.edit("`Can't slap this nibba !!`")
+        await event.edit("`Can't slap this person, need to fetch some sticks and stones !!`")
 
 async def get_user(event):
     """ Get the user from argument or replied message. """
@@ -368,8 +422,7 @@ async def get_user(event):
             user = int(user)
 
         if not user:
-            self_user = await event.client.get_me()
-            user = self_user.id
+            await event.edit("`Give me someone to slap !!`")
 
         if event.message.entities is not None:
             probable_user_mention_entity = event.message.entities[0]
@@ -404,7 +457,7 @@ async def slap(replied_user, event):
     hit = random.choice(HIT)
     throw = random.choice(THROW)
 
-    caption = "..." + temp.format(user2=slapped, item=item, hits=hit, throws=throw)
+    caption = "..." + temp.format(victim=slapped, item=item, hits=hit, throws=throw)
 
     return caption
 
@@ -416,7 +469,7 @@ async def lol(lel):
         okay = okay[:-1] + "_-"
         await lel.edit(okay)
 
-@register(outgoing=True, pattern="^;__;$")
+@register(outgoing=True, pattern="^;_;$")
 async def fun(e):
     t = ";__;"
     for j in range(10):
@@ -427,7 +480,9 @@ async def fun(e):
 async def cry(e):
     """ y u du dis, i cry everytime !! """
     if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
-        await e.edit("(;´༎ຶД༎ຶ)")
+        index = random.randint(0, len(HELLOSTR))
+        reply_text = CRI[index]
+        await e.edit(reply_text)
 
 @register(outgoing=True, pattern="^.cp(?: |$)(.*)")
 async def copypasta(cp_e):
@@ -682,7 +737,6 @@ async def claptext(memereview):
         reply_text += " 👏"
         await memereview.edit(reply_text)
 
-
 @register(outgoing=True, pattern="^.bt$")
 async def bluetext(bt_e):
     """ Believe me, you will find this useful. """
@@ -693,6 +747,53 @@ async def bluetext(bt_e):
                 "`Are you a stupid animal which is attracted to colours?`"
             )
 
+
+@register(outgoing=True, pattern="^.smk (.*)")
+async def smrk(smk):
+        if not smk.text[0].isalpha() and smk.text[0] not in ("/", "#", "@", "!"):
+            textx = await smk.get_reply_message()
+            message = smk.text
+        if message[5:]:
+            message = str(message[5:])
+        elif textx:
+            message = textx
+            message = str(message.message)
+        if message == 'dele':
+            await smk.edit( message +'te the hell' + "ツ" )
+            await smk.edit("ツ")
+        else:
+             smirk = " ツ"
+             reply_text = message + smirk
+             await smk.edit(reply_text)
+
+
+@register(outgoing=True, pattern=r"\.f (.*)")
+async def payf(e):
+    paytext = e.pattern_match.group(1)[0]
+    pay = "{}\n{}\n{}\n{}\n{}\n{}\n{}".format(paytext*5, paytext*1,paytext*1, paytext*4, paytext*1, paytext*1, paytext*1)
+    await e.edit(pay)
+
+
+@register(outgoing=True, pattern="^.lfy (.*)",)
+async def let_me_google_that_for_you(lmgtfy_q):
+    if not lmgtfy_q.text[0].isalpha() and lmgtfy_q.text[0] not in ("/", "#", "@", "!"):
+        textx = await lmgtfy_q.get_reply_message()
+        query = lmgtfy_q.text
+        if query[5:]:
+            query = str(query[5:])
+        elif textx:
+            query = textx
+            query = query.message
+        query_encoded = query.replace(" ", "+")
+        lfy_url = f"http://lmgtfy.com/?s=g&iie=1&q={query_encoded}"
+        payload = {'format': 'json', 'url': lfy_url}
+        r = requests.get('http://is.gd/create.php', params=payload)
+        await lmgtfy_q.edit(f"[{query}]({r.json()['shorturl']})")
+        if BOTLOG:
+            await bot.send_message(
+                BOTLOG_CHATID,
+                "LMGTFY query `" + query + "` was executed successfully",
+            )
 
 @register(pattern='.type(?: |$)(.*)')
 async def typewriter(typew):
@@ -727,7 +828,7 @@ CMD_HELP.update({
 \nUsage: Check yourself ;)\
 \n\n-_-\
 \nUsage: Ok...\
-\n\n;__;\
+\n\n;_;\
 \nUsage: Like `-_-` but crying.\
 \n\n.cp\
 \nUsage: Copypasta the famous meme\
@@ -765,9 +866,15 @@ CMD_HELP.update({
 \nUsage: Do it and find the real fun.\
 \n\n.clap\
 \nUsage: Praise people!\
+\n\n.f <emoji/character>\
+\nUsage: Pay Respects.\
 \n\n.bt\
 \nUsage: Believe me, you will find this useful.\
+\n\n.smk <text/reply>\
+\nUsage: A shit module for ツ , who cares.\
 \n\n.type\
-\nUsage: ust a small command to make your keyboard become a typewriter!\
-\n\n\nThanks to Thoncc (@Skittles9823Bot) for these."
+\nUsage: Just a small command to make your keyboard become a typewriter!\
+\n\n.lfy <query>\
+\nUsage: Let me Google that for you real quick !!\
+\n\n\nThanks to 🅱️ottom🅱️ext🅱️ot (@NotAMemeBot) for these."
 })

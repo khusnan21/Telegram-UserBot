@@ -106,7 +106,7 @@ async def filters_active(event):
         await event.edit(transact)
 
 CMD_HELP.update({
-    "filters": "\
+    "filter": "\
 .filters\
 \nUsage: List all active filters in this chat.\
 \n\n.filter <keyword> <reply message>\

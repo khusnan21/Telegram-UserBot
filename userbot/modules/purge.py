@@ -36,7 +36,7 @@ async def fastpurger(purg):
             purg.chat_id,
             "`Fast purge complete!\n`Purged "
             + str(count)
-            + " messages. **This auto-generated message shall be self destructed in 2 seconds.**",
+            + " messages.",
         )
 
         if BOTLOG:
@@ -66,7 +66,7 @@ async def purgeme(delme):
             delme.chat_id,
             "`Purge complete!` Purged "
             + str(count)
-            + " messages. **This auto-generated message shall be self destructed in 2 seconds.**",
+            + " messages.",
         )
         if BOTLOG:
             await delme.client.send_message(
@@ -100,7 +100,7 @@ async def delete_it(delme):
                     )
 
 
-@register(outgoing=True, pattern="^.editme")
+@register(outgoing=True, pattern="^.edit")
 async def editer(edit):
     """ For .editme command, edit your last message. """
     if not edit.text[0].isalpha() and edit.text[0] not in ("/", "#", "@", "!"):
@@ -149,7 +149,7 @@ CMD_HELP.update({
 })
 
 CMD_HELP.update({
-    'editme': ".editme <newmessage>\
+    'edit': ".edit <newmessage>\
 \nUsage: Edits the text you replied to with newtext."
 })
 

@@ -12,8 +12,7 @@ from userbot.events import register
 
 DOGBIN_URL = "https://del.dog/"
 
-
-@register(outgoing=True, pattern=r"^.paste(?: |$)([\s\S]*)")
+@register(outgoing=True, pattern=r"^.dogpaste(?: |$)([\s\S]*)")
 async def paste(pstl):
     """ For .paste command, allows using dogbin functionality with the command. """
     if not pstl.text[0].isalpha() and pstl.text[0] not in ("/", "#", "@", "!"):
@@ -61,7 +60,7 @@ async def paste(pstl):
             )
 
 
-@register(outgoing=True, pattern="^.get_dogbin_content(?: |$)(.*)")
+@register(outgoing=True, pattern="^.dogfetch(?: |$)(.*)")
 async def get_dogbin_content(dog_url):
     """ For .get_dogbin_content command, fetches the content of a dogbin URL. """
     if not dog_url.text[0].isalpha() and dog_url.text[0] not in ("/", "#", "@", "!"):
@@ -109,11 +108,8 @@ async def get_dogbin_content(dog_url):
             )
 
 CMD_HELP.update({
-    "paste": "Create a paste or a shortened url using dogbin (https://del.dog/)"
-})
-CMD_HELP.update({
-    "get_dogbin_content": "Get the content of a paste or shortened url from dogbin (https://del.dog/)"
-})
-CMD_HELP.update({
-    "pastestats": "Get stats of a paste or shortened url from dogbin (https://del.dog/)"
+    "dogbin": ".dogpaste <text/reply>\
+\nUsage: Create a paste or a shortened url using dogbin (https://del.dog/)\
+\n\n.dogfetch\
+\nUsage: Get the content of a paste or shortened url from dogbin (https://del.dog/)"
 })
