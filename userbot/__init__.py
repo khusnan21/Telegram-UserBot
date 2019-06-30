@@ -52,6 +52,8 @@ API_KEY = os.environ.get("API_KEY", None)
 
 API_HASH = os.environ.get("API_HASH", None)
 
+STRING_SESSION = os.environ.get("STRING_SESSION", None)
+
 BOTLOG_CHATID = int(os.environ.get("BOTLOG_CHATID", "0"))
 
 BOTLOG = sb(os.environ.get(
@@ -90,7 +92,10 @@ SPOTIFY_BIO_PREFIX = os.environ.get("SPOTIFY_BIO_PREFIX", None)
 DEFAULT_BIO = os.environ.get("DEFAULT_BIO", None)
 
 # pylint: disable=invalid-name
-bot = TelegramClient("userbot", API_KEY, API_HASH)
+if STRING_SESSION:
+    bot = TelegramClient(StringSession(STRING_SESSION), API_KEY, API_HASH)
+else:
+    bot = TelegramClient("userbot", API_KEY, API_HASH)
 
 if os.path.exists("learning-data-root.check"):
     os.remove("learning-data-root.check")

@@ -21,6 +21,10 @@
          "description":"Get this value from my.telegram.org.",
          "value":""
       },
+      "STRING_SESSION":{
+         "description":"Get this value by running python3 string_session.py locally.",
+         "value":""
+      },
       "CHROME_DRIVER":{
          "description":"ChromeDriver location.",
          "value":"/app/.chromedriver/bin/chromedriver"
@@ -115,3 +119,4 @@
       }
    ]
 }
+
