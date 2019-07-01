@@ -14,6 +14,7 @@ from distutils.util import strtobool as sb
 from dotenv import load_dotenv
 from requests import get
 from telethon import TelegramClient
+from telethon.sessions import StringSession
 
 load_dotenv("config.env")
 
