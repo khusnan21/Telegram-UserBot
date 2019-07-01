@@ -43,18 +43,15 @@
       },
       "BOTLOG":{
          "description":"Incase you want to turn off logging, put this to false",
-         "value":"",
-         "required":false
+         "value":"False"
       },
       "BOTLOG_CHATID":{
          "description":"ChatID for the Log group",
-         "value":"",
-         "required":false
+         "value":"0"
       },
       "CONSOLE_LOGGER_VERBOSE":{
          "description":"If you need Verbosity on the Logging",
-         "value":"",
-         "required":false
+         "value":"False"
       },
       "PM_AUTO_BAN":{
          "description":"PM Auto-Ban Feature Switch",
