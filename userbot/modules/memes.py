@@ -480,7 +480,7 @@ async def fun(e):
 async def cry(e):
     """ y u du dis, i cry everytime !! """
     if not e.text[0].isalpha() and e.text[0] not in ("/", "#", "@", "!"):
-        index = random.randint(0, len(HELLOSTR))
+        index = random.randint(0, len(CRI))
         reply_text = CRI[index]
         await e.edit(reply_text)
 
@@ -586,9 +586,10 @@ async def zal(zgfy):
 @register(outgoing=True, pattern="^.hi$")
 async def hoi(hello):
     """ Greet everyone! """
-    index = random.randint(0, len(HELLOSTR))
-    reply_text = HELLOSTR[index]
-    await hello.edit(reply_text)
+    if not hello.text[0].isalpha() and hello.text[0] not in ("/", "#", "@", "!"):
+        index = random.randint(0, len(HELLOSTR))
+        reply_text = HELLOSTR[index]
+        await hello.edit(reply_text)
 
 
 @register(outgoing=True, pattern="^.owo(?: |$)(.*)")
