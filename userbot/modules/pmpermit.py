@@ -6,21 +6,21 @@
 
 """ Userbot module for keeping control who PM you. """
 
-from sqlalchemy.exc import IntegrityError
 from telethon.tl.functions.contacts import BlockRequest, UnblockRequest
 from telethon.tl.functions.messages import ReportSpamRequest
 from telethon.tl.functions.users import GetFullUserRequest
 from telethon.tl.types import User
+from sqlalchemy.exc import IntegrityError
 
-from userbot import (BOTLOG, BOTLOG_CHATID, BRAIN_CHECKER, CMD_HELP, COUNT_PM,
-                     LASTMSG, LOGS, PM_AUTO_BAN)
+from userbot import (COUNT_PM, CMD_HELP, BOTLOG, BOTLOG_CHATID,
+                     PM_AUTO_BAN, BRAIN_CHECKER, LASTMSG, LOGS)
 from userbot.events import register
 
 # ========================= CONSTANTS ============================
-UNAPPROVED_MSG = ("Bleep blop! This is a bot. Don't fret.\n\n"
-                  "My master hasn't approved you to PM."
-                  "Please wait for my master to look in, he mostly approves PMs.\n\n"
-                  "As far as I know, he doesn't usually approve retards though.")
+UNAPPROVED_MSG = ("`Bleep blop! This is a bot. Don't fret.\n\n`"
+                  "`My master hasn't approved you to PM.`"
+                  "`Please wait for my master to look in, he mostly approves PMs.\n\n`"
+                  "`As far as I know, he doesn't usually approve retards though.`")
 # =================================================================
 
 
@@ -65,7 +65,7 @@ async def permitpm(event):
                 if COUNT_PM[event.chat_id] > 4:
                     await event.respond(
                         "`You were spamming my master's PM, which I don't like.`"
-                        "`I'mma Report Spam.`"
+                        " `I'mma Report Spam.`"
                     )
 
                     try:
@@ -99,29 +99,25 @@ async def permitpm(event):
 
 @register(disable_edited=True, outgoing=True)
 async def auto_accept(event):
-    """ Will approve automatically if you texted them first. """
-    if event.is_private:
-        try:
-            from userbot.modules.sql_helper.pm_permit_sql import is_approved
-            from userbot.modules.sql_helper.pm_permit_sql import approve
-        except AttributeError:
-            return
+    """ Will approve nibbas automatically if you texted them first. """
+    try:
+        from userbot.modules.sql_helper.pm_permit_sql import is_approved
+        from userbot.modules.sql_helper.pm_permit_sql import approve
+    except AttributeError:
+        return
 
-        chat = await event.get_chat()
-        if isinstance(chat, User):
-            if is_approved(event.chat_id) or chat.bot:
-                return
-            async for message in event.client.iter_messages(
-                    chat.id, reverse=True, limit=1
-            ):
-                if message.from_id == (await event.client.get_me()).id:
-                    approve(chat.id)
+    chat = await event.get_chat()
+    if isinstance(chat, User):
+        if is_approved(event.chat_id):
+            return
+        async for message in event.client.iter_messages(chat.id, reverse=True, limit=1):
+            if message.from_id == (await event.client.get_me()).id:
+                approve(chat.id)
                 if BOTLOG:
                     await event.client.send_message(
                         BOTLOG_CHATID,
                         "#AUTO-APPROVED\n"
-                        + "User: " +
-                        f"[{chat.first_name}](tg://user?id={chat.id})",
+                        + "User: " + f"[{chat.first_name}](tg://user?id={chat.id})",
                     )
 
 
@@ -189,6 +185,38 @@ async def approvepm(apprvpm):
             )
 
 
+@register(outgoing=True, pattern="^.disapprove$")
+async def disapprovepm(disapprvpm):
+    if not disapprvpm.text[0].isalpha() and disapprvpm.text[0] not in ("/", "#", "@", "!"):
+        try:
+            from userbot.modules.sql_helper.pm_permit_sql import dissprove
+        except:
+            await disapprvpm.edit("`Running on Non-SQL mode!`")
+            return
+
+        if disapprvpm.reply_to_msg_id:
+            reply = await disapprvpm.get_reply_message()
+            replied_user = await bot(GetFullUserRequest(reply.from_id))
+            aname = replied_user.user.id
+            name0 = str(replied_user.user.first_name)
+            dissprove(replied_user.user.id)
+        else:
+            dissprove(disapprvpm.chat_id)
+            aname = await bot.get_entity(disapprvpm.chat_id)
+            name0 = str(aname.first_name)
+
+        await disapprvpm.edit(
+            f"[{name0}](tg://user?id={disapprvpm.chat_id}) `Disaproved to PM!`"
+            )
+
+        if BOTLOG:
+            await bot.send_message(
+                BOTLOG_CHATID,
+                f"[{name0}](tg://user?id={disapprvpm.chat_id})"
+                " was disapproved to PM you.",
+            )
+
+
 @register(outgoing=True, pattern="^.block$")
 async def blockpm(block):
     """ For .block command, block people from PMing you! """
@@ -248,6 +276,8 @@ CMD_HELP.update({
     "pmpermit": "\
 .approve\
 \nUsage: Approves the mentioned/replied person to PM.\
+\n\n.disapprove\
+\nUsage: Disapprove anyone in PM..\
 \n\n.block\
 \nUsage: Blocks the person from PMing you.\
 \n\n.unblock\
